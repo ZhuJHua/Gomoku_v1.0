@@ -2,7 +2,10 @@ package com.example.gomoku;
 
 import javafx.scene.control.Label;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -16,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Tcp_Client {
     Socket socket;
 
-    ObjectOutputStream objectOutputStream=null;
-    ObjectInputStream objectInputStream=null;
+    ObjectOutputStream objectOutputStream = null;
+    ObjectInputStream objectInputStream = null;
     String hostAddress;
 
     {
@@ -41,7 +44,7 @@ public class Tcp_Client {
     }
 
     public void sendData(ChessInfo chessInfo) throws IOException {
-        objectOutputStream=new ObjectOutputStream(socket.getOutputStream());
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.writeObject(chessInfo);
         objectOutputStream.flush();
         socket.shutdownOutput();
@@ -49,9 +52,8 @@ public class Tcp_Client {
 
     public ChessInfo receiveData() {
         ChessInfo temp;
-        try (ObjectInputStream inputStream = objectInputStream = new ObjectInputStream
-                (new BufferedInputStream(socket.getInputStream()))) {
-            temp=(ChessInfo) inputStream.readObject();
+        try (var objectInputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()))) {
+            temp = (ChessInfo) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

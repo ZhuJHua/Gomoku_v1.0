@@ -19,7 +19,7 @@ import java.io.IOException;
 public class NetWork {
     static String ipAddress;//ip地址
     static int port;//端口
-    static Tcp_Client tcp_client = new Tcp_Client();//客机
+    static TcpClient tcp_client = new TcpClient();//客机
     static GridPane gridPane = new GridPane();
 
     //绘制登录框

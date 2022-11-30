@@ -13,6 +13,8 @@ public class Test extends Application {
     @Override
     public void start(Stage stage) {
          stage1= new GameStage();
+         GameStage.isBlack=false;
+
     }
     
     public static void main(String[] args) {

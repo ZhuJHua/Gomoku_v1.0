@@ -26,7 +26,7 @@ public class GameStage extends Stage {
     protected static Pane pane;//窗口
     protected static int ChessNumber = 0;//棋子计数器
     static boolean isAi = false;//是否是人机对战
-    static boolean isOnline=false;//是否是在线对战
+    static boolean isOnline = false;//是否是在线对战
     static GameAlgorithm gameAlgorithm = new GameAlgorithm();//逻辑层对象
     static TimeCounter timeCounter = new TimeCounter();//计时器类对象
     static Control control = new Control();//控制类对象
@@ -37,7 +37,7 @@ public class GameStage extends Stage {
     final int ButtonLength = 50; //按钮高
     Image backgroundImg = new Image(String.valueOf(GameStage.class.getResource("/img/background.JPG")));//导入图片
     Image titleImg = new Image(String.valueOf(GameStage.class.getResource("/img/title.png")));
-    
+
     public GameStage() {
         setResizable(false);//设置窗口不可变
         pane = new Pane();//面板对象
@@ -52,23 +52,21 @@ public class GameStage extends Stage {
         drawText();//文本
         show();
     }
-    
-    
+
+
     //游戏入口
     private void StartGame() {
-        if (!isOnline){
-            control.Mouse();//鼠标事件
-            timeCounter.Timer();//启动计时器
-        }
+        control.Mouse();//鼠标事件
+        timeCounter.Timer();//启动计时器
 
     }
-    
+
     private void StartAIGame() {
         isAi = true;
         control.Mouse();//鼠标事件
         timeCounter.Timer();//启动计时器
     }
-    
+
     //绘制棋盘
     private void drawLine() {
         for (int i = 0; i < LineSize; i++) {
@@ -78,7 +76,7 @@ public class GameStage extends Stage {
             pane.getChildren().add(line2);
         }
     }
-    
+
     //绘制按钮
     private void drawButton() {
         Button button = new Button("开始游戏");
@@ -114,7 +112,7 @@ public class GameStage extends Stage {
         button4.setOnAction(e -> StartAIGame());
         button5.setOnAction(e -> netWork.login());
     }
-    
+
     //绘制标题
     private void drawText() {
         ImageView imageView = new ImageView(titleImg);
@@ -123,7 +121,7 @@ public class GameStage extends Stage {
         imageView.fitWidthProperty();
         pane.getChildren().add(imageView);
     }
-    
+
     //制作人员名单
     private void list() {
         Pane pane1 = new Pane();
@@ -136,5 +134,5 @@ public class GameStage extends Stage {
         stage1.setScene(scene);
         stage1.show();
     }
-    
+
 }

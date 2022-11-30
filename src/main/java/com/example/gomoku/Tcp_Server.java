@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -23,6 +25,7 @@ public class Tcp_Server {
     ConcurrentHashMap<Object, Object> clientInMap = new ConcurrentHashMap<>();
     //客户端与客户名绑定
     ConcurrentHashMap<Object, Object> clientNameMap = new ConcurrentHashMap<>();
+    ArrayList<Socket> client = new ArrayList<>();
 
 
     public void creatServer(int port) {
@@ -45,11 +48,20 @@ public class Tcp_Server {
                     clientDataMap.put(clientSocket, objectOutputStream);
                     //将客户端和输入流绑定
                     clientInMap.put(clientSocket, objectInputStream);
+                    for (Map.Entry<Object, Object> entry : clientInMap.entrySet()) {
+                        ChessInfo chessInfo;
+                        try (ObjectInputStream ois = (ObjectInputStream) entry.getValue()) {
+                            chessInfo = (ChessInfo) ois.readObject();
+                        }
+                        try (ObjectOutputStream oos = (ObjectOutputStream) clientDataMap.get(entry.getKey())) {
+                            oos.writeObject(chessInfo);
+                        }
+                    }
                     //将客户端和客户名绑定
                     clientNameMap.put(clientSocket, ("玩家" + clientNumber.getAndIncrement()));
                     System.out.println(clientDataMap);
                 }
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
