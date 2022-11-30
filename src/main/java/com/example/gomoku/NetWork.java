@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,10 +18,10 @@ import java.io.IOException;
  */
 public class NetWork {
     static String ipAddress;//ip地址
-    static Text text=new Text();
     static int port;//端口
-    Tcp_Server tcp_server=new Tcp_Server();//服务器
-    Tcp_Client tcp_client=new Tcp_Client();//客机
+    static Tcp_Client tcp_client = new Tcp_Client();//客机
+    static GridPane gridPane = new GridPane();
+
     //绘制登录框
     public void login() {
         //建立文本框
@@ -30,7 +29,7 @@ public class NetWork {
         TextField textField1 = new TextField();
         //添加按钮
         Button button = new Button("确定");
-        GridPane gridPane = new GridPane();
+
         gridPane.setHgap(2);
         gridPane.setVgap(3);
         gridPane.add(new Label("IP地址: "), 0, 0);
@@ -46,11 +45,11 @@ public class NetWork {
         button.setOnAction(e -> {
             ipAddress = textField.getText();
             port = Integer.parseInt(textField1.getText());
-            try {
-                tcp_client.cilent(ipAddress,port);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            //按下按钮后连接到服务器
+            tcp_client.connect(ipAddress, port);
+            //游戏类型设置为在线对战
+            GameStage.isOnline=true;
+            gridPane.add(new Label("连接成功" + " 本机IP:" + tcp_client.hostAddress), 1, 2);
         });
         Scene scene = new Scene(gridPane, 400, 200);
         Stage stage = new Stage();

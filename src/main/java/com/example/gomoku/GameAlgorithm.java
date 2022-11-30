@@ -19,8 +19,6 @@ public class GameAlgorithm {
     public int[][] score;//分数数组
     int tupleScoreTmp;
     int maxScore;
-    private int humanChessmanNum;//人类棋子数
-    private int machineChessmanNum;//机器棋子数
     private Text text;//游戏结束文本
     
     public GameAlgorithm() {
@@ -91,7 +89,9 @@ public class GameAlgorithm {
         for (int i = x - 1, j = y - 1; i >= 0 && j >= 0; --i, --j) {
             if (chess[i][j] == chess[x][y]) {
                 count++;
-            } else break;
+            } else {
+                break;
+            }
         }
         return count >= 5;
     }
@@ -106,27 +106,29 @@ public class GameAlgorithm {
         goalX = 0;
         goalY = 0;
         maxScore = -1;
-        humanChessmanNum = 0;
-        machineChessmanNum = 0;
+        //人类棋子数
+        int humanChessNum = 0;
+        //机器棋子数
+        int machineChessNum = 0;
         tupleScoreTmp = 0;
         //扫描横向
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 11; j++) {
                 int k = j;
                 while (k < j + 5) {
-                    if (chess[i][k] == -1) machineChessmanNum++;
-                    else if (chess[i][k] == 1) humanChessmanNum++;
+                    if (chess[i][k] == -1) machineChessNum++;
+                    else if (chess[i][k] == 1) humanChessNum++;
                     k++;
                 }
                 //得分临时变量
-                tupleScoreTmp = tupleScore(humanChessmanNum, machineChessmanNum);
+                tupleScoreTmp = tupleScore(humanChessNum, machineChessNum);
                 //为该五元组的每个位置添加分数
                 for (k = j; k < j + 5; k++) {
                     score[i][k] += tupleScoreTmp;
                 }
                 //置零
-                humanChessmanNum = 0;//五元组中的黑棋数量
-                machineChessmanNum = 0;//五元组中的白棋数量
+                humanChessNum = 0;//五元组中的黑棋数量
+                machineChessNum = 0;//五元组中的白棋数量
                 tupleScoreTmp = 0;//五元组得分临时变量
             }
         }
@@ -136,19 +138,19 @@ public class GameAlgorithm {
             for (int j = 0; j < 11; j++) {
                 int k = j;
                 while (k < j + 5) {
-                    if (chess[k][i] == -1) machineChessmanNum++;
-                    else if (chess[k][i] == 1) humanChessmanNum++;
+                    if (chess[k][i] == -1) machineChessNum++;
+                    else if (chess[k][i] == 1) humanChessNum++;
                     k++;
                 }
                 //得分临时变量
-                tupleScoreTmp = tupleScore(humanChessmanNum, machineChessmanNum);
+                tupleScoreTmp = tupleScore(humanChessNum, machineChessNum);
                 //为该五元组的每个位置添加分数
                 for (k = j; k < j + 5; k++) {
                     score[k][i] += tupleScoreTmp;
                 }
                 //置零
-                humanChessmanNum = 0;//五元组中的黑棋数量
-                machineChessmanNum = 0;//五元组中的白棋数量
+                humanChessNum = 0;//五元组中的黑棋数量
+                machineChessNum = 0;//五元组中的白棋数量
                 tupleScoreTmp = 0;//五元组得分临时变量
             }
         }
@@ -159,15 +161,15 @@ public class GameAlgorithm {
                 int m = k;
                 int n = j;
                 while (m > k - 5 && k - 5 >= -1) {
-                    if (chess[m][n] == -1) machineChessmanNum++;
-                    else if (chess[m][n] == 1) humanChessmanNum++;
+                    if (chess[m][n] == -1) machineChessNum++;
+                    else if (chess[m][n] == 1) humanChessNum++;
                     
                     m--;
                     n++;
                 }
                 //注意斜向判断的时候，可能构不成五元组（靠近四个角落），遇到这种情况要忽略掉
                 if (m == k - 5) {
-                    tupleScoreTmp = tupleScore(humanChessmanNum, machineChessmanNum);
+                    tupleScoreTmp = tupleScore(humanChessNum, machineChessNum);
                     //为该五元组的每个位置添加分数
                     for (m = k, n = j; m > k - 5; m--, n++) {
                         score[m][n] += tupleScoreTmp;
@@ -175,8 +177,8 @@ public class GameAlgorithm {
                 }
                 
                 //置零
-                humanChessmanNum = 0;//五元组中的黑棋数量
-                machineChessmanNum = 0;//五元组中的白棋数量
+                humanChessNum = 0;//五元组中的黑棋数量
+                machineChessNum = 0;//五元组中的白棋数量
                 tupleScoreTmp = 0;//五元组得分临时变量
                 
             }
@@ -187,23 +189,23 @@ public class GameAlgorithm {
                 int m = k;
                 int n = j;
                 while (m < k + 5 && k + 5 <= 15) {
-                    if (chess[n][m] == -1) machineChessmanNum++;
-                    else if (chess[n][m] == 1) humanChessmanNum++;
+                    if (chess[n][m] == -1) machineChessNum++;
+                    else if (chess[n][m] == 1) humanChessNum++;
                     
                     m++;
                     n--;
                 }
                 //注意斜向判断的时候，可能构不成五元组（靠近四个角落），遇到这种情况要忽略掉
                 if (m == k + 5) {
-                    tupleScoreTmp = tupleScore(humanChessmanNum, machineChessmanNum);
+                    tupleScoreTmp = tupleScore(humanChessNum, machineChessNum);
                     //为该五元组的每个位置添加分数
                     for (m = k, n = j; m < k + 5; m++, n--) {
                         score[n][m] += tupleScoreTmp;
                     }
                 }
                 //置零
-                humanChessmanNum = 0;//五元组中的黑棋数量
-                machineChessmanNum = 0;//五元组中的白棋数量
+                humanChessNum = 0;//五元组中的黑棋数量
+                machineChessNum = 0;//五元组中的白棋数量
                 tupleScoreTmp = 0;//五元组得分临时变量
                 
             }
@@ -214,15 +216,15 @@ public class GameAlgorithm {
                 int m = k;
                 int n = j;
                 while (m < k + 5 && k + 5 <= 15) {
-                    if (chess[m][n] == -1) machineChessmanNum++;
-                    else if (chess[m][n] == 1) humanChessmanNum++;
+                    if (chess[m][n] == -1) machineChessNum++;
+                    else if (chess[m][n] == 1) humanChessNum++;
                     
                     m++;
                     n++;
                 }
                 //注意斜向判断的时候，可能构不成五元组（靠近四个角落），遇到这种情况要忽略掉
                 if (m == k + 5) {
-                    tupleScoreTmp = tupleScore(humanChessmanNum, machineChessmanNum);
+                    tupleScoreTmp = tupleScore(humanChessNum, machineChessNum);
                     //为该五元组的每个位置添加分数
                     for (m = k, n = j; m < k + 5; m++, n++) {
                         score[m][n] += tupleScoreTmp;
@@ -230,8 +232,8 @@ public class GameAlgorithm {
                 }
                 
                 //置零
-                humanChessmanNum = 0;//五元组中的黑棋数量
-                machineChessmanNum = 0;//五元组中的白棋数量
+                humanChessNum = 0;//五元组中的黑棋数量
+                machineChessNum = 0;//五元组中的白棋数量
                 tupleScoreTmp = 0;//五元组得分临时变量
                 
             }
@@ -242,15 +244,15 @@ public class GameAlgorithm {
                 int m = k;
                 int n = j;
                 while (m < k + 5 && k + 5 <= 15) {
-                    if (chess[n][m] == -1) machineChessmanNum++;
-                    else if (chess[n][m] == 1) humanChessmanNum++;
+                    if (chess[n][m] == -1) machineChessNum++;
+                    else if (chess[n][m] == 1) humanChessNum++;
                     
                     m++;
                     n++;
                 }
                 //注意斜向判断的时候，可能构不成五元组（靠近四个角落），遇到这种情况要忽略掉
                 if (m == k + 5) {
-                    tupleScoreTmp = tupleScore(humanChessmanNum, machineChessmanNum);
+                    tupleScoreTmp = tupleScore(humanChessNum, machineChessNum);
                     //为该五元组的每个位置添加分数
                     for (m = k, n = j; m < k + 5; m++, n++) {
                         score[n][m] += tupleScoreTmp;
@@ -258,8 +260,8 @@ public class GameAlgorithm {
                 }
                 
                 //置零
-                humanChessmanNum = 0;//五元组中的黑棋数量
-                machineChessmanNum = 0;//五元组中的白棋数量
+                humanChessNum = 0;//五元组中的黑棋数量
+                machineChessNum = 0;//五元组中的白棋数量
                 tupleScoreTmp = 0;//五元组得分临时变量
                 
             }

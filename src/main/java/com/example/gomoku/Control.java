@@ -2,6 +2,8 @@ package com.example.gomoku;
 
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
+
 import static com.example.gomoku.GameStage.*;
 
 /**
@@ -12,7 +14,7 @@ import static com.example.gomoku.GameStage.*;
 public class Control {
     static int x;//鼠标横坐标
     static int y;//鼠标纵坐标
-    
+
     //绘制棋子
     public void drawChess(int x, int y) {
         circle[ChessNumber].setCenterX(LeftMar + x * Space);//中心点横坐标
@@ -33,37 +35,51 @@ public class Control {
         pane.getChildren().add(circle[ChessNumber++]);
         GameAlgorithm.RegretNumber = 0;//重置悔棋次数
     }
-    
+
     //鼠标操作
     public void Mouse() {
         pane.setOnMouseClicked(e -> {
             //将鼠标位置转为（0，14）范围内的整数，浮动0.5范围作为边缘
             x = (int) Math.round(((e.getX() - LeftMar) / Space));
             y = (int) Math.round(((e.getY() - TopMar) / Space));
-            Tcp_Client.YN=true;
             //边界检测且不能下在同一个地方
             if (e.getX() > LeftMar - ChessRad && e.getX() < LineSize * Space + ChessRad && e.getY() > TopMar - ChessRad
                     && e.getY() < LineSize * Space + ChessRad && GameAlgorithm.chess[x][y] == 0) {
                 drawChess(x, y);//四舍五入
-                Tcp_Client.YN=false;
                 if (gameAlgorithm.WinGame(x, y)) {
                     TimeCounter.timeline.stop();//停止计时器
                     gameAlgorithm.StopGame(!isBlack);
                 }
-                
-                //电脑操作
+                //如果是在线对战
+                if (isOnline) {
+                    try {
+                        //发送当前数据
+                        NetWork.tcp_client.sendData(new ChessInfo(x, y));
+                    } catch (IOException ex) {
+                        System.out.println("网络错误");
+                        ex.printStackTrace();
+                    }
+                    //接收对手下棋数据
+                    drawChess(NetWork.tcp_client.receiveData().getX(), NetWork.tcp_client.receiveData().getY());
+                    if (gameAlgorithm.WinGame(NetWork.tcp_client.receiveData().getX(),
+                            NetWork.tcp_client.receiveData().getY())) {
+                        TimeCounter.timeline.stop();//停止计时器
+                        gameAlgorithm.StopGame(!isBlack);
+                    }
+                }
+                //如果是人机
                 if (isAi) {
                     gameAlgorithm.GetScore();
                     drawChess(GameAlgorithm.goalX, GameAlgorithm.goalY);
-                    
                     if (gameAlgorithm.WinGame(GameAlgorithm.goalX, GameAlgorithm.goalY)) {
                         TimeCounter.timeline.stop();//停止计时器
                         gameAlgorithm.StopGame(!isBlack);
                     }
                 }
+
                 TimeCounter.EachTime = 60;//计时器重置
             }
         });
     }
-    
+
 }

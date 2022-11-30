@@ -26,6 +26,7 @@ public class GameStage extends Stage {
     protected static Pane pane;//窗口
     protected static int ChessNumber = 0;//棋子计数器
     static boolean isAi = false;//是否是人机对战
+    static boolean isOnline=false;//是否是在线对战
     static GameAlgorithm gameAlgorithm = new GameAlgorithm();//逻辑层对象
     static TimeCounter timeCounter = new TimeCounter();//计时器类对象
     static Control control = new Control();//控制类对象
@@ -55,8 +56,11 @@ public class GameStage extends Stage {
     
     //游戏入口
     private void StartGame() {
-        control.Mouse();//鼠标事件
-        timeCounter.Timer();//启动计时器
+        if (!isOnline){
+            control.Mouse();//鼠标事件
+            timeCounter.Timer();//启动计时器
+        }
+
     }
     
     private void StartAIGame() {
