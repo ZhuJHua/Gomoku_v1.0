@@ -1,6 +1,7 @@
-package com.example.gomoku;
+package com.example.gomoku.netservice;
 
 
+import com.example.gomoku.dao.ChessInfo;
 import javafx.scene.control.Label;
 
 import java.io.BufferedInputStream;

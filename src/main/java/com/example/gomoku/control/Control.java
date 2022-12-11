@@ -1,10 +1,14 @@
-package com.example.gomoku;
+package com.example.gomoku.control;
 
+import com.example.gomoku.dao.ChessInfo;
+import com.example.gomoku.logic.GameAlgorithm;
+import com.example.gomoku.logic.TimeCounter;
+import com.example.gomoku.netservice.NetWork;
 import javafx.application.Platform;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import static com.example.gomoku.GameStage.*;
+import static com.example.gomoku.gui.GameStage.*;
 
 /**
  * @Description 控制
@@ -12,8 +16,8 @@ import static com.example.gomoku.GameStage.*;
  * @Date 2022/11/1-下午 02:41
  */
 public class Control {
-    static int x;//鼠标横坐标
-    static int y;//鼠标纵坐标
+    public static int x;//鼠标横坐标
+    public static int y;//鼠标纵坐标
 
     //绘制棋子
     public void drawChess(int x, int y) {
@@ -56,7 +60,7 @@ public class Control {
             //如果是在线对战
             if (isOnline && isBlack) {
                 //发送当前数据
-                Platform.runLater(()->NetWork.tcp_client.sendChessInfo(new ChessInfo(x, y)));
+                Platform.runLater(()-> NetWork.tcp_client.sendChessInfo(new ChessInfo(x, y)));
                 //接收对手下棋数据
                 Platform.runLater(()->drawChess(NetWork.tcp_client.receiveChessInfo().getX(),
                         NetWork.tcp_client.receiveChessInfo().getY()));

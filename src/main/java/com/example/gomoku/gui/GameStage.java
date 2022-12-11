@@ -1,5 +1,9 @@
-package com.example.gomoku;
+package com.example.gomoku.gui;
 
+import com.example.gomoku.control.Control;
+import com.example.gomoku.logic.GameAlgorithm;
+import com.example.gomoku.netservice.NetWork;
+import com.example.gomoku.logic.TimeCounter;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,18 +20,18 @@ import javafx.stage.Stage;
  * @Date 2022/10/25-上午 03:26
  */
 public class GameStage extends Stage {
-    protected static final int TopMar = 50;//上间距
-    protected static final int LeftMar = 50;//左边距
-    protected static final int Space = 50; //内间距
-    protected static final int LineSize = 15; //棋盘线条数
-    protected static final int ChessRad = 20;//棋子半径
-    protected static Circle[] circle = new Circle[361];//棋子对象数组
-    protected static boolean isBlack = true;//黑棋还是白棋
-    protected static Pane pane;//窗口
-    protected static int ChessNumber = 0;//棋子计数器
-    static boolean isAi = false;//是否是人机对战
-    static boolean isOnline = false;//是否是在线对战
-    static GameAlgorithm gameAlgorithm = new GameAlgorithm();//逻辑层对象
+    public static final int TopMar = 50;//上间距
+    public static final int LeftMar = 50;//左边距
+    public static final int Space = 50; //内间距
+    public static final int LineSize = 15; //棋盘线条数
+    public static final int ChessRad = 20;//棋子半径
+    public static Circle[] circle = new Circle[361];//棋子对象数组
+    public static boolean isBlack = true;//黑棋还是白棋
+    public static Pane pane;//窗口
+    public static int ChessNumber = 0;//棋子计数器
+    public static boolean isAi = false;//是否是人机对战
+    public static boolean isOnline = false;//是否是在线对战
+    public static GameAlgorithm gameAlgorithm = new GameAlgorithm();//逻辑层对象
     static TimeCounter timeCounter = new TimeCounter();//计时器类对象
     static Control control = new Control();//控制类对象
     static NetWork netWork = new NetWork();//联机对象

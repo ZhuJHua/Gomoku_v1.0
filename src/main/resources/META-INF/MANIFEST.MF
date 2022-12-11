@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.example.gomoku.Test
+Main-Class: com.example.gomoku.test.Test
 

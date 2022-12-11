@@ -1,5 +1,6 @@
-package com.example.gomoku;
+package com.example.gomoku.logic;
 
+import com.example.gomoku.gui.GameStage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
@@ -14,9 +15,9 @@ import javafx.util.Duration;
  * @Date 2022/11/1-下午 02:27
  */
 public class TimeCounter {
-    protected static int EachTime = 60;//每一步的时间
-    protected static int TotalTime = 0;//游戏总时间
-    protected static Timeline timeline;//计时器
+    public static int EachTime = 60;//每一步的时间
+    public static int TotalTime = 0;//游戏总时间
+    public static Timeline timeline;//计时器
     private Text textTime;
     
     //计时器

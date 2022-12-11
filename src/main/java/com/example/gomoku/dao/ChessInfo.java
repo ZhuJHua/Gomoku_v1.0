@@ -1,4 +1,4 @@
-package com.example.gomoku;
+package com.example.gomoku.dao;
 
 import java.io.Serial;
 import java.io.Serializable;

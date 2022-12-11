@@ -8,7 +8,16 @@ module com.example.demo {
     requires javafx.fxml;
     requires java.desktop;
     
-    
-    opens com.example.gomoku to javafx.fxml;
-    exports com.example.gomoku;
+    exports com.example.gomoku.gui;
+    opens com.example.gomoku.gui to javafx.fxml;
+    exports com.example.gomoku.netservice;
+    opens com.example.gomoku.netservice to javafx.fxml;
+    exports com.example.gomoku.logic;
+    opens com.example.gomoku.logic to javafx.fxml;
+    exports com.example.gomoku.test;
+    opens com.example.gomoku.test to javafx.fxml;
+    exports com.example.gomoku.dao;
+    opens com.example.gomoku.dao to javafx.fxml;
+    exports com.example.gomoku.control;
+    opens com.example.gomoku.control to javafx.fxml;
 }

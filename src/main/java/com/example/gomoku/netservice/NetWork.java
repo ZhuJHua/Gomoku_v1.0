@@ -1,5 +1,6 @@
-package com.example.gomoku;
+package com.example.gomoku.netservice;
 
+import com.example.gomoku.gui.GameStage;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,8 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 /**
  * @Description socket
  * @Author 住京华
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class NetWork {
     static String ipAddress;//ip地址
     static int port;//端口
-    static TcpClient tcp_client = new TcpClient();//客机
+    public static TcpClient tcp_client = new TcpClient();//客机
     static GridPane gridPane = new GridPane();
 
     //绘制登录框

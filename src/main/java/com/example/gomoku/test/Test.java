@@ -1,5 +1,6 @@
-package com.example.gomoku;
+package com.example.gomoku.test;
 
+import com.example.gomoku.gui.GameStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

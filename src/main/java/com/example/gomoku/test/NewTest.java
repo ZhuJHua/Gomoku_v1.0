@@ -1,4 +1,4 @@
-package com.example.gomoku;
+package com.example.gomoku.test;
 
 /**
  * @Description

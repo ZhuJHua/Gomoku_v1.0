@@ -1,5 +1,7 @@
-package com.example.gomoku;
+package com.example.gomoku.logic;
 
+import com.example.gomoku.control.Control;
+import com.example.gomoku.gui.GameStage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -13,9 +15,9 @@ import javafx.stage.Stage;
  */
 public class GameAlgorithm {
     public static int[][] chess;//储存下棋信息，其中黑棋数值为1，白棋数值为-1
-    protected static int RegretNumber = 0;
-    static int goalX;//电脑落子位置
-    static int goalY;//电脑落子位置
+    public static int RegretNumber = 0;
+    public static int goalX;//电脑落子位置
+    public static int goalY;//电脑落子位置
     public int[][] score;//分数数组
     int tupleScoreTmp;
     int maxScore;

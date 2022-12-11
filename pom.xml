@@ -78,7 +78,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.gomoku.NewTest</mainClass>
+                            <mainClass>com.example.gomoku.test.NewTest</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,4 +1,6 @@
-package com.example.gomoku;
+package com.example.gomoku.netservice;
+
+import com.example.gomoku.dao.ChessInfo;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
