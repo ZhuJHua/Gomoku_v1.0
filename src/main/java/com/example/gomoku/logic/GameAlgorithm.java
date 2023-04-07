@@ -1,7 +1,7 @@
 package com.example.gomoku.logic;
 
 import com.example.gomoku.control.Control;
-import com.example.gomoku.gui.GameStage;
+import com.example.gomoku.dao.ChessBoardInfo;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -287,30 +287,30 @@ public class GameAlgorithm {
     
     //停止游戏
     public void StopGame(boolean isBlack) {
-        if (isBlack && !GameStage.isAi) {
+        if (isBlack && !ChessBoardInfo.isAi) {
             text = new Text(850, 400, "游戏结束 黑棋胜");
         }
-        if (!isBlack && !GameStage.isAi) {
+        if (!isBlack && !ChessBoardInfo.isAi) {
             text = new Text(850, 400, "游戏结束 白棋胜");
         }
-        if (GameStage.isAi && !isBlack) {
+        if (ChessBoardInfo.isAi && !isBlack) {
             text = new Text(850, 400, "游戏结束 电脑胜");
         }
-        if (GameStage.isAi && isBlack) {
+        if (ChessBoardInfo.isAi && isBlack) {
             text = new Text(850, 400, "游戏结束 玩家胜");
         }
         text.setFont(Font.font(60));
-        GameStage.pane.getChildren().add(text);
+        ChessBoardInfo.pane.getChildren().add(text);
     }
     
     //重新开始
     public void ReStartGame() {
-        GameStage.isBlack = true;//黑棋先手
+        ChessBoardInfo.isBlack = true;//黑棋先手
         TimeCounter.EachTime = 60;//计时器重置
         TimeCounter.TotalTime = 0;//重置计时器
         TimeCounter.timeline.play();//启动计时器
-        GameStage.pane.getChildren().removeAll(GameStage.circle);//移除所有棋子对象
-        GameStage.pane.getChildren().remove(text);
+        ChessBoardInfo.pane.getChildren().removeAll(ChessBoardInfo.circle);//移除所有棋子对象
+        ChessBoardInfo.pane.getChildren().remove(text);
         //重新初始化棋子数组
         for (int i = 0; i < chess[0].length; ++i) {
             for (int j = 0; j < chess.length; ++j) {
@@ -321,16 +321,16 @@ public class GameAlgorithm {
     
     //悔棋
     public void RegretChess() {
-        if (GameStage.isAi){
+        if (ChessBoardInfo.isAi) {
             Hnm();
             return;
         }
         RegretNumber++;
         //只能悔棋一次
         if (RegretNumber == 1) {
-            GameStage.pane.getChildren().remove(GameStage.circle[GameStage.ChessNumber - 1]);//移除棋子
+            ChessBoardInfo.pane.getChildren().remove(ChessBoardInfo.circle[ChessBoardInfo.ChessNumber - 1]);//移除棋子
             TimeCounter.EachTime = 60;
-            GameStage.isBlack = !GameStage.isBlack;//重新开始
+            ChessBoardInfo.isBlack = !ChessBoardInfo.isBlack;//重新开始
             chess[Control.x][Control.y] = 0;//棋子数组重置为0
         }
     }

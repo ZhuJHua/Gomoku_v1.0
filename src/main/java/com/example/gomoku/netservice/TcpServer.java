@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 /**
  * @Description 服务端
  * @Author 住京华
@@ -20,7 +19,7 @@ import java.util.concurrent.Executors;
  */
 public class TcpServer {
     static ArrayList<Socket> clients = new ArrayList<>();
-
+    
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         Socket clientSocket = null;
@@ -39,17 +38,18 @@ public class TcpServer {
             }
         }
     }
-
+    
     //接受客户端信息线程，每个客户端对应一个，用来获取客户端发送来的数据并广播到所有客户端
     static class HandleMsg implements Runnable {
-
+        
         Socket clientSocket;
         ObjectOutputStream oos = null;
         ChessInfo chessInfo = null;
+        
         public HandleMsg(Socket clientSocket) {
             this.clientSocket = clientSocket;
         }
-
+        
         @Override
         public void run() {
             //添加进客户端套接字池
@@ -79,7 +79,7 @@ public class TcpServer {
                 }
             }
         }
-
+        
         //广播发送方法
         void sendMsg(ChessInfo info) {
             for (int i = clients.size() - 1; i >= 0; --i) {
@@ -94,5 +94,5 @@ public class TcpServer {
             }
         }
     }
-
+    
 }

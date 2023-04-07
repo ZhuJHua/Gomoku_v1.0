@@ -1,6 +1,6 @@
 package com.example.gomoku.netservice;
 
-import com.example.gomoku.gui.GameStage;
+import com.example.gomoku.dao.ChessBoardInfo;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 /**
  * @Description socket
@@ -26,29 +28,35 @@ public class NetWork {
         //建立文本框
         TextField textField = new TextField();
         TextField textField1 = new TextField();
+        TextField textField2 = new TextField();
         //添加按钮
         Button button = new Button("确定");
-
+        
         gridPane.setHgap(2);
-        gridPane.setVgap(3);
+        gridPane.setVgap(5);
         gridPane.add(new Label("IP地址: "), 0, 0);
         gridPane.add(textField, 1, 0);
         gridPane.add(new Label("端口号: "), 0, 1);
         gridPane.add(textField1, 1, 1);
-        gridPane.add(button, 1, 3);
+        gridPane.add(new Label("黑白棋："), 0, 2);
+        gridPane.add(textField2, 1, 2);
+        gridPane.add(button, 1, 4);
         textField.setAlignment(Pos.BOTTOM_RIGHT);
         textField1.setAlignment(Pos.BOTTOM_RIGHT);
+        textField2.setAlignment(Pos.BOTTOM_RIGHT);
         GridPane.setHalignment(button, HPos.RIGHT);
         gridPane.setAlignment(Pos.CENTER);
         //按钮事件
         button.setOnAction(e -> {
             ipAddress = textField.getText();
             port = Integer.parseInt(textField1.getText());
+            String temp = textField2.getText();
+            ChessBoardInfo.isBlack = Objects.equals(temp, "黑");
             //按下按钮后连接到服务器
             tcp_client.connect(ipAddress, port);
             //游戏类型设置为在线对战
-            GameStage.isOnline=true;
-            gridPane.add(new Label("连接成功" + " 本机IP:" + tcp_client.hostAddress), 1, 2);
+            ChessBoardInfo.isOnline = true;
+            gridPane.add(new Label("连接成功" + " 本机IP:" + tcp_client.hostAddress), 1, 3);
         });
         Scene scene = new Scene(gridPane, 400, 200);
         Stage stage = new Stage();

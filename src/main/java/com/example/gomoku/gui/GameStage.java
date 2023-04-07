@@ -1,12 +1,8 @@
 package com.example.gomoku.gui;
 
-import com.example.gomoku.control.Control;
-import com.example.gomoku.logic.GameAlgorithm;
-import com.example.gomoku.netservice.NetWork;
-import com.example.gomoku.logic.TimeCounter;
+import com.example.gomoku.dao.ChessBoardInfo;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -20,35 +16,14 @@ import javafx.stage.Stage;
  * @Date 2022/10/25-上午 03:26
  */
 public class GameStage extends Stage {
-    public static final int TopMar = 50;//上间距
-    public static final int LeftMar = 50;//左边距
-    public static final int Space = 50; //内间距
-    public static final int LineSize = 15; //棋盘线条数
-    public static final int ChessRad = 20;//棋子半径
-    public static Circle[] circle = new Circle[361];//棋子对象数组
-    public static boolean isBlack = true;//黑棋还是白棋
-    public static Pane pane;//窗口
-    public static int ChessNumber = 0;//棋子计数器
-    public static boolean isAi = false;//是否是人机对战
-    public static boolean isOnline = false;//是否是在线对战
-    public static GameAlgorithm gameAlgorithm = new GameAlgorithm();//逻辑层对象
-    static TimeCounter timeCounter = new TimeCounter();//计时器类对象
-    static Control control = new Control();//控制类对象
-    static NetWork netWork = new NetWork();//联机对象
-    final int BoardWidth = 1400; //棋盘宽
-    final int BoardHeight = 800; //棋盘高
-    final int ButtonWidth = 100; //按钮宽
-    final int ButtonLength = 50; //按钮高
-    Image backgroundImg = new Image(String.valueOf(GameStage.class.getResource("/img/background.JPG")));//导入图片
-    Image titleImg = new Image(String.valueOf(GameStage.class.getResource("/img/title.png")));
-
+    
     public GameStage() {
         setResizable(false);//设置窗口不可变
-        pane = new Pane();//面板对象
-        Scene scene = new Scene(pane, BoardWidth, BoardHeight);//场景对象
-        ImageView imageView = new ImageView(backgroundImg);//背景图片
-        for (int i = 0; i < circle.length; ++i) circle[i] = new Circle();//初始化对象数组
-        pane.getChildren().add(imageView);
+        ChessBoardInfo.pane = new Pane();//面板对象
+        Scene scene = new Scene(ChessBoardInfo.pane, ChessBoardInfo.BoardWidth, ChessBoardInfo.BoardHeight);//场景对象
+        ImageView imageView = new ImageView(ChessBoardInfo.backgroundImg);//背景图片
+        for (int i = 0; i < ChessBoardInfo.circle.length; ++i) ChessBoardInfo.circle[i] = new Circle();//初始化对象数组
+        ChessBoardInfo.pane.getChildren().add(imageView);
         setScene(scene);
         setTitle("连珠游戏");//设置
         drawLine();//棋盘线
@@ -56,31 +31,34 @@ public class GameStage extends Stage {
         drawText();//文本
         show();
     }
-
-
+    
     //游戏入口
     private void StartGame() {
-        control.Mouse();//鼠标事件
-        timeCounter.Timer();//启动计时器
-
+        ChessBoardInfo.control.Mouse();//鼠标事件
+        ChessBoardInfo.timeCounter.Timer();//启动计时器
+        
     }
-
+    
     private void StartAIGame() {
-        isAi = true;
-        control.Mouse();//鼠标事件
-        timeCounter.Timer();//启动计时器
+        ChessBoardInfo.isAi = true;
+        ChessBoardInfo.control.Mouse();//鼠标事件
+        ChessBoardInfo.timeCounter.Timer();//启动计时器
     }
-
+    
     //绘制棋盘
     private void drawLine() {
-        for (int i = 0; i < LineSize; i++) {
-            Line line1 = new Line(LeftMar, TopMar + i * Space, LeftMar + Space * 14, TopMar + i * Space);
-            Line line2 = new Line(LeftMar + i * Space, TopMar, LeftMar + i * Space, TopMar + Space * 14);
-            pane.getChildren().add(line1);
-            pane.getChildren().add(line2);
+        for (int i = 0; i < ChessBoardInfo.LineSize; i++) {
+            Line line1 = new Line(ChessBoardInfo.LeftMar, ChessBoardInfo.TopMar + i * ChessBoardInfo.Space,
+                    ChessBoardInfo.LeftMar + ChessBoardInfo.Space * 14,
+                    ChessBoardInfo.TopMar + i * ChessBoardInfo.Space);
+            Line line2 = new Line(ChessBoardInfo.LeftMar + i * ChessBoardInfo.Space, ChessBoardInfo.TopMar,
+                    ChessBoardInfo.LeftMar + i * ChessBoardInfo.Space,
+                    ChessBoardInfo.TopMar + ChessBoardInfo.Space * 14);
+            ChessBoardInfo.pane.getChildren().add(line1);
+            ChessBoardInfo.pane.getChildren().add(line2);
         }
     }
-
+    
     //绘制按钮
     private void drawButton() {
         Button button = new Button("开始游戏");
@@ -89,43 +67,44 @@ public class GameStage extends Stage {
         Button button3 = new Button("制作人员");
         Button button4 = new Button("人机对战");
         Button button5 = new Button("在线对战");
-        button.setPrefSize(ButtonWidth, ButtonLength);
+        button.setPrefSize(ChessBoardInfo.ButtonWidth, ChessBoardInfo.ButtonLength);
         button.setLayoutX(850);
         button.setLayoutY(600);
-        button1.setPrefSize(ButtonWidth, ButtonLength);
+        button1.setPrefSize(ChessBoardInfo.ButtonWidth, ChessBoardInfo.ButtonLength);
         button1.setLayoutX(1050);
         button1.setLayoutY(600);
-        button2.setPrefSize(ButtonWidth, ButtonLength);
+        button2.setPrefSize(ChessBoardInfo.ButtonWidth, ChessBoardInfo.ButtonLength);
         button2.setLayoutX(1250);
         button2.setLayoutY(600);
-        button3.setPrefSize(ButtonWidth, ButtonLength);
+        button3.setPrefSize(ChessBoardInfo.ButtonWidth, ChessBoardInfo.ButtonLength);
         button3.setLayoutX(1250);
         button3.setLayoutY(700);
-        button4.setPrefSize(ButtonWidth, ButtonLength);
+        button4.setPrefSize(ChessBoardInfo.ButtonWidth, ChessBoardInfo.ButtonLength);
         button4.setLayoutX(850);
         button4.setLayoutY(700);
-        button5.setPrefSize(ButtonWidth, ButtonLength);
+        button5.setPrefSize(ChessBoardInfo.ButtonWidth, ChessBoardInfo.ButtonLength);
         button5.setLayoutX(1050);
         button5.setLayoutY(700);
-        pane.getChildren().addAll(button, button1, button2, button3, button4, button5);
+        ChessBoardInfo.pane.getChildren().addAll(button, button1, button2, button3, button4, button5);
         //开始游戏检测
         button.setOnAction(e -> StartGame());
-        button1.setOnAction(e -> gameAlgorithm.ReStartGame());
-        button2.setOnAction(e -> gameAlgorithm.RegretChess());
+        button1.setOnAction(e -> ChessBoardInfo.gameAlgorithm.ReStartGame());
+        button2.setOnAction(e -> ChessBoardInfo.gameAlgorithm.RegretChess());
         button3.setOnAction(e -> list());
         button4.setOnAction(e -> StartAIGame());
-        button5.setOnAction(e -> netWork.login());
+        button5.setOnAction(e -> ChessBoardInfo.netWork.login());
+        
     }
-
+    
     //绘制标题
     private void drawText() {
-        ImageView imageView = new ImageView(titleImg);
+        ImageView imageView = new ImageView(ChessBoardInfo.titleImg);
         imageView.setX(900);
         imageView.setY(80);
         imageView.fitWidthProperty();
-        pane.getChildren().add(imageView);
+        ChessBoardInfo.pane.getChildren().add(imageView);
     }
-
+    
     //制作人员名单
     private void list() {
         Pane pane1 = new Pane();
@@ -138,5 +117,5 @@ public class GameStage extends Stage {
         stage1.setScene(scene);
         stage1.show();
     }
-
+    
 }
